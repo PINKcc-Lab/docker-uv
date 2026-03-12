@@ -1,6 +1,5 @@
 services:
-  science-app:
-    container_name: ${PROJECT_NAME}_${PROJECT_VERSION}
+  app:
     build:
       context: .
       args:
