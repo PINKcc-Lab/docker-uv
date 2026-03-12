@@ -7,8 +7,8 @@ A reproducible scientific computing environment powered by **uv** and **Docker**
 ### 0. Knowledge about Docker and UV
 You can read documentation we made to quickly be able to use those tools, it's very easy :)   
 
-- [UV DOCUMENTATION](docs/UV.md)  
-- [DOCKER DOCUMENTATION](docs/docker.md)  
+- [UV DOCUMENTATION](UV.md)  
+- [DOCKER DOCUMENTATION](docker.md)  
 
 ### 1. Prerequisites
 
