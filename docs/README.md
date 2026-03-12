@@ -7,8 +7,8 @@ A reproducible scientific computing environment powered by **uv** and **Docker**
 ### 0. Knowledge about Docker and UV
 You can read documentation we made to quickly be able to use those tools, it's very easy :)   
 
-- [UV DOCUMENTATION](UV.md)  
-- [DOCKER DOCUMENTATION](docker.md)  
+- [📦 UV Doc](UV.md)  
+- [🐳 DOCKER Doc](docker.md)  
 
 ### 1. Prerequisites
 
@@ -27,6 +27,18 @@ Build and start the containerized application:
 ```bash
 docker compose up --build
 ```
+
+💡 **Tips**  
+If you want to make the script run in background because it will run for a long time, you can add `-d` to the command to detach the terminal. It will run until the end even if you close the terminal.
+```bash
+docker compose up --build -d
+```
+Then retrieve logs with:
+```bash
+docker compose logs -f
+```
+
+
 
 ## 📦 Dependency Management
 
@@ -59,20 +71,5 @@ docker compose run --rm science-app uv add <package_name>
 | `pyproject.toml` | High-level dependencies and project metadata. |
 | `uv.lock` | The exact version manifest for reproducibility. |
 | `Dockerfile` | Instructions to build the optimized Python 3.12 image. |
+| `.env` | Environment variables for Docker Compose and the application. |
 | `config.yaml` | Application parameters and constants. |
-
-## 🛠️ Docker Details
-
-The Dockerfile is optimized using a multi-step sync process:
-
-1. **Layer 1:** Installs dependencies based only on `uv.lock` (Cached).
-2. **Layer 2:** Copies your actual source code.
-3. **Layer 3:** Installs the project itself in "editable" mode.
-
-* **Clean up:** `docker compose down`
-
-## 📝 Configuration
-
-Update `.env` to change your environment variables or `PYTHON_VERSION`. Note that changing the Python version will trigger a fresh download of the base image.
-
-Would you like me to add a section on how to run **Jupyter Notebooks** inside this specific Docker setup?
