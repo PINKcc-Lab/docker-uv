@@ -73,3 +73,63 @@ docker compose run --rm science-app uv add <package_name>
 | `Dockerfile` | Instructions to build the optimized Python 3.12 image. |
 | `.env` | Environment variables for Docker Compose and the application. |
 | `config.yaml` | Application parameters and constants. |
+
+
+# 🚀 GPU & CPU Execution Guide
+
+This project is designed to be portable. It can run on a standard laptop (CPU mode) or a high-performance workstation (GPU mode) without changing any code or Dockerfiles.
+
+## 📋 Prerequisites
+
+To use the GPU, your host machine must have:
+
+1. **NVIDIA Hardware:** A CUDA-compatible GPU.
+2. **NVIDIA Drivers:** Installed on the Host OS.
+3. **NVIDIA Container Toolkit:** This is the bridge between Docker and your GPU.
+* *Windows/Mac:* Included in Docker Desktop.
+* *Linux:* Must be installed manually (`sudo apt install nvidia-container-toolkit`).
+
+## ⚙️ Configuration
+
+We use environment variables and Docker profiles to manage execution modes.
+
+### 1. The `.env` File
+
+Your `.env` file controls which profile is active by default.
+
+```bash
+# Set to 'cpu' for laptops/Macs, 'gpu' for servers
+COMPOSE_PROFILES=cpu
+
+# Set the Python version
+PYTHON_VERSION=3.13
+
+```
+
+## 🛠 Usage
+
+### Mode A: CPU (Default)
+
+Use this for development, testing, or running on Mac/Non-NVIDIA hardware.
+
+```bash
+# If COMPOSE_PROFILES=cpu is in .env
+docker compose up --build
+
+# Or explicitly
+docker compose --profile cpu up --build
+
+```
+
+### Mode B: GPU Acceleration
+
+Use this for training models or heavy scientific computations.
+
+```bash
+# If COMPOSE_PROFILES=gpu is in .env
+docker compose up --build
+
+# Or explicitly
+docker compose --profile gpu up --build
+
+```
