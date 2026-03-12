@@ -1,0 +1,14 @@
+services:
+  science-app:
+    container_name: ${PROJECT_NAME}_${PROJECT_VERSION}
+    build:
+      context: .
+      args:
+        - PYTHON_VERSION=${PYTHON_VERSION}
+    env_file: .env
+    volumes:
+      - ./src:/app/src
+      - ./data:/app/data
+      - ./config.yaml:/app/config.yaml
+    stdin_open: true
+    tty: true

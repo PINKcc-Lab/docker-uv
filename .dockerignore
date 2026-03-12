@@ -1,0 +1,25 @@
+# Git and IDEs
+.git
+.gitignore
+.vscode
+.idea
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+
+# UV and Build
+uv.lock
+.python-version
+
+# Data and Outputs
+# (We mount these via volumes in Compose, so we don't want them in the image)
+data/
+outputs/
+results/
+*.log
