@@ -98,7 +98,7 @@ We use environment variables and Docker profiles to manage execution modes.
 Your `.env` file controls which profile is active by default.
 
 ```bash
-# Set to 'cpu' for laptops/Macs, 'gpu' for servers
+# Set to 'cpu' for laptops/Macs, 'gpu' for servers, 'mps' for mac amd chips
 COMPOSE_PROFILES=cpu
 
 # Set the Python version

@@ -1,5 +1,6 @@
 services:
-  app:
+  # Create a base template that isn't a "service" itself
+  base-app:
     build:
       context: .
       args:
@@ -12,8 +13,12 @@ services:
     stdin_open: true
     tty: true
 
+  app:
+    extends: base-app
+    profiles: ["cpu"]
+
   app-gpu:
-    extends: app
+    extends: base-app
     profiles: ["gpu"]
     deploy:
       resources:
@@ -22,3 +27,10 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+
+  app-mac:
+    extends: base-app
+    profiles: ["mps"]
+    environment:
+      - DEVICE=mps
+      - PYTORCH_ENABLE_MPS_FALLBACK=1
