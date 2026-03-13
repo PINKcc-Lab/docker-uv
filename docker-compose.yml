@@ -1,6 +1,7 @@
 services:
   # Create a base template that isn't a "service" itself
   base-app:
+    profiles: ["internal-template"]
     build:
       context: .
       args:
