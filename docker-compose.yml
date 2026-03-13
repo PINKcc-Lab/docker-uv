@@ -1,25 +1,23 @@
-services:
-  # Create a base template that isn't a "service" itself
-  base-app:
-    profiles: ["internal-template"]
-    build:
-      context: .
-      args:
-        - PYTHON_VERSION=${PYTHON_VERSION}
-    env_file: .env
-    volumes:
-      - ./src:/app/src
-      - ./data:/app/data
-      - ./config.yaml:/app/config.yaml
-    stdin_open: true
-    tty: true
+x-app-template: &app-template
+  build:
+    context: .
+    args:
+      - PYTHON_VERSION=${PYTHON_VERSION}
+  env_file: .env
+  volumes:
+    - ./src:/app/src
+    - ./data:/app/data
+    - ./config.yaml:/app/config.yaml
+  stdin_open: true
+  tty: true
 
+services:
   app:
-    extends: base-app
+    <<: *app-template
     profiles: ["cpu"]
 
   app-gpu:
-    extends: base-app
+    <<: *app-template
     profiles: ["gpu"]
     deploy:
       resources:
@@ -28,10 +26,9 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
-
-  app-mac:
-    extends: base-app
+    
+  app-mps:
+    <<: *app-template
     profiles: ["mps"]
-    environment:
-      - DEVICE=mps
-      - PYTORCH_ENABLE_MPS_FALLBACK=1
+    # Sadly, it doesnt work ...
+    
