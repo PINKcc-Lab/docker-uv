@@ -5,11 +5,16 @@ x-app-template: &app-template
       - PYTHON_VERSION=${PYTHON_VERSION}
   env_file: .env
   volumes:
-    - ./src:/app/src
-    - ./data:/app/data
+    - .venv:/app/.venv
+    - ./pyproject.toml:/app/pyproject.toml
+    - ./uv.lock:/app/uv.lock
+    - ${DATA_VOLUME}:/app/data
     - ./config.yaml:/app/config.yaml
   stdin_open: true
   tty: true
+  environment:
+    - UV_PROJECT_ENVIRONMENT=/app/.venv
+    
 
 services:
   app:

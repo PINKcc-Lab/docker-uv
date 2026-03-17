@@ -8,13 +8,11 @@
 __pycache__/
 *.py[cod]
 *$py.class
-.venv/
 .ipynb_checkpoints/
 .pytest_cache/
 .mypy_cache/
 
 # UV and Build
-uv.lock
 .python-version
 
 # Data and Outputs

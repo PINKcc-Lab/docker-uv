@@ -1,30 +1,32 @@
-# Use the OFFICIAL uv image with a dynamic Python version
-FROM astral/uv:python3.12-bookworm-slim
-ARG PYTHON_VERSION
+# Use the official uv image
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
-# Set the working directory
+# Re-declare ARG after FROM to use it in the build
+ARG PYTHON_VERSION=3.12
+
 WORKDIR /app
 
-# Optimize uv for Docker
-ENV UV_COMPILE_BYTECODE=1 \
-    UV_LINK_MODE=copy
+# 1. Configuration for performance and volume compatibility
+ENV UV_LINK_MODE=copy \
+    UV_COMPILE_BYTECODE=1 \
+    UV_PYTHON_PREFERENCE=only-managed \
+    UV_PROJECT_ENVIRONMENT=/app/.venv
 
-# 1. Install dependencies
+# 2. Install Python version early
 RUN uv python install ${PYTHON_VERSION}
-COPY pyproject.toml uv.lock* ./
-RUN uv sync --no-install-project --no-dev --python ${PYTHON_VERSION}
 
-# 2. Copy the rest of the project
+# 3. Layer Caching
+COPY pyproject.toml ./pyproject.toml
+COPY uv.lock ./uv.lock
+RUN uv sync --frozen --no-install-project
+
+# 4. Copy the rest of the project
 COPY src/ ./src/
-COPY .env ./ 
-COPY config.yaml* ./
 COPY docs/ ./docs/
-
-# 3. Final sync to install the project
-RUN uv sync --no-dev --python ${PYTHON_VERSION}
 
 # Place the virtualenv binaries in the PATH
 ENV PATH="/app/.venv/bin:$PATH"
 
-# Run the main script
-CMD ["python", "src/main.py"]
+# 5. The "Repair & Run" Command
+# 'uv sync' here fixes the host-link issue if the volume is mounted.
+CMD ["sh", "-c", "uv sync && uv run src/main.py"]
