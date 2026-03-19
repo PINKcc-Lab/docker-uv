@@ -1,15 +1,9 @@
 x-app-template: &app-template
   build:
     context: .
-    args:
-      - PYTHON_VERSION=${PYTHON_VERSION}
   env_file: .env
   volumes:
-    - .venv:/app/.venv
-    - ./pyproject.toml:/app/pyproject.toml
-    - ./uv.lock:/app/uv.lock
     - ${DATA_VOLUME}:/app/data
-    - ./config.yaml:/app/config.yaml
   stdin_open: true
   tty: true
   environment:
@@ -32,8 +26,4 @@ services:
               count: all
               capabilities: [gpu]
     
-  app-mps:
-    <<: *app-template
-    profiles: ["mps"]
-    # Sadly, it doesnt work ...
     

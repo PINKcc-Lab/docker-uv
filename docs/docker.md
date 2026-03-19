@@ -27,14 +27,13 @@ In your `docker-compose.yml`, you have a section called `volumes`:
 
 ```yaml
 volumes:
-  - ./src:/app/src
-
+  - ${DATA_VOLUME}:/app/data
 ```
 
-This **syncs** your local `src` folder with the container's `/app/src` folder.
+Everything between `${}` is a variable that can be changed from you .env file. For exemple in our .env we have DATA_VOLUME="./data".  
+Volume are configured with `<source>:<target>:[mode]`. Source if the path from the host and target the path in the container. Mode is optionnal and by default is wrx.
 
-* **Benefit:** You can edit code in your IDE (VS Code, PyCharm) and the container sees the changes **instantly** without needing a rebuild.
-* **Note:** Changing `pyproject.toml` still requires a rebuild (`--build`) because libraries are installed into the image, not the volume.
+This **syncs** your local `./data` folder with the container's `/app/data` folder. Everything from your host will be available in the container, and everything your container create in this folder will be available in your host.  
 
 ## 4. Understanding your Dockerfile Layers
 
@@ -74,5 +73,3 @@ docker system prune
 ```
 
 *(This removes all stopped containers and unused networks. Add `-a` to remove old images too.)*
-
-> **Next Step:** Your setup is now professional-grade. Would you like to see how to add a **PostgreSQL database** or a **Redis cache** to your `docker-compose.yml` to handle large datasets?
