@@ -15,4 +15,5 @@ RUN uv sync --frozen --no-install-project
 
 COPY src/ src/
 
-CMD ["python", "src/main.py"]
+ENTRYPOINT ["uv"]
+CMD ["run", "src/main.py"]
