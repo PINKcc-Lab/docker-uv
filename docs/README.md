@@ -11,6 +11,7 @@ You can read documentation we made to quickly be able to use those tools, it's v
 
 - [📦 UV Doc](UV.md)
 - [🐳 DOCKER Doc](docker.md)
+- [🤖 Run on Jean-Zay Doc](jean-zay.md)
 
 ### 1. Prerequisites
 
